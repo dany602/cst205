@@ -40,9 +40,9 @@ def my_search(search_input, my_index):
                     self.new_window.show()
                     # my_lbl.setText(f"{image['id']}, {image['title']}, {image['url']}")
                     self.my_lbl.setText("Picture is found! :)")
-                break
-            else:
                 
+                
+            else:
                 image_path = f"hw3_images/no_results.jpg"
                 pixmap = QPixmap(image_path)
                 self.new_window = QLabel()

@@ -17,11 +17,11 @@ class image_search_app(QWidget):
         vbox = QVBoxLayout()
         self.welcome_label = QLabel("Homework 3: Image Search and Manipulation")
         self.prompt_label = QLabel("Type in a search word:")
-        self.my_lineedit = QLineEdit("")
+        self.my_lineedit = QLineEdit()
         self.my_lineedit.minimum_width = 300
-        self.my_lineedit.select_all()
+        # self.my_lineedit.select_all()
         self.my_btn = QPushButton("Submit")
-        self.my_lbl = QLabel('')
+        self.my_lbl = QLabel()
         self.my_btn.clicked.connect(self.search)
         self.my_lineedit.returnPressed.connect(self.search)
 
@@ -29,7 +29,7 @@ class image_search_app(QWidget):
 
         self.my_combo_box = QComboBox()
         self.my_combo_box.add_items(self.my_list)
-        self.my_label = QLabel("")
+        self.my_label = QLabel()
 
         vbox.add_widget(self.welcome_label)
         vbox.add_widget(self.prompt_label)

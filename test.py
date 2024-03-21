@@ -13,47 +13,51 @@ class image_search_app(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.set_window_role("Image Search Engine")
-        set_layout = QVBoxLayout()
-        self.resize(400, 300)
+        vbox = QVBoxLayout()
+        self.welcome_label = QLabel("Homework 3: Image search")
+        self.prompt_label = QLabel("Type in a search word:")
+        self.my_lineedit = QLineEdit("")
+        self.my_lineedit.minimum_width(250)
+        self.my_lineedit.selectAll()
+        self.my_btn = QPushButton("Submit")
+        self.my_lbl = QLabel('')
+        self.my_btn.clicked.connect(self.on_submit)
+        self.my_lineedit.returnPressed.connect(self.on_submit)
 
-        self.search_input = QLineEdit()
-        set_layout.add_widget(self.search_input)
+        self.my_list = ["Pick a manipulation", "Sepia", "Negative", "Grayscale", "Thumbnail", "None"]
 
-# This is where the image manipulation takes place
-        self.manipulation_combo = QComboBox()
-        self.manipulation_combo.add_items(["None", "Sepia", "Negative", "Grayscale", "Thumbnail"])
-        set_layout.add_widget(self.manipulation_combo)
+        self.my_combo_box = QComboBox()
+        self.my_combo_box.add_items(self.my_list)
+        self.my_label = QLabel("")
 
-# This is for the button
-        self.search_button = QPushButton("Search")
-        self.search_button.clicked.connect(self.search)
-        self.search_input.returnPressed.connect(self.search)
-        set_layout.add_widget(self.search_button)
+        vbox.add_widget(self.welcome_label)
+        vbox.add_widget(self.prompt_label)
+        vbox.add_widget(self.my_lineedit)
+        vbox.add_widget(self.my_lbl)
+        
+        vbox.add_widget(self.my_combo_box)
+        vbox.add_widget(self.my_label)
 
-        self.image_label = QLabel()
-        set_layout.add_widget(self.image_label)
+        vbox.add_widget(self.my_btn)
 
-        self.set_layout(set_layout)
+        self.set_layout(vbox)
 
     @Slot()
     def search(self):
         try:
             search_term = self.search_input.text()
-            print(f"Search term: {search_term}")
+            image_path = my_search(search_term)  # Assuming this returns a string path
+            if image_path:
+                pixmap = QPixmap(image_path)  # Correct usage
+                self.image_label.setPixmap(pixmap)
+            else: 
+                pixmap = QPixmap("no_results.jpg")
+                self.image_label.setPixmap(pixmap)
         except Exception as e:
             print(f"Error: {e}")
 
-# Displays the image chosen from the input above, if not then the no_seults.jpg image should show
-        # if image_path:
-        #     pixmap = QPixmap(image_path)
-        #     self.image_label.setPixmap(pixmap)
-        # else: 
-        #     pixmap = QPixmap("no_results.jpg")
-        #     self.image_label.setPixmap(pixmap)
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = image_search_app()
-    window.show()
-    sys.exit(app.exec())
+app = QApplication([])
+my_win = image_search_app()
+my_win.show()
+sys.exit(app.exec())

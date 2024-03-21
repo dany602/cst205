@@ -17,27 +17,27 @@ def my_search(search_input):
                     new_window.setPixmap(pixmap)
 
                     if my_index == 1: # Sepia
-                        img = Image.open(image_path)
+                        img = open(image_path)
                         sepia_img = sepia_filter(img)
-                        pixmap = QPixmap.fromImage(ImageQt.ImageQt(sepia_img))
+                        pixmap = QPixmap(sepia_img)
                         new_window.setPixmap(pixmap)
 
                     elif my_index == 2: # Negative
-                        img = Image.open(image_path)
+                        img = open(image_path)
                         negative_img = negative_filter(img)
-                        pixmap = QPixmap.fromImage(ImageQt.ImageQt(negative_img))
+                        pixmap = QPixmap(negative_img)
                         new_window.setPixmap(pixmap)
 
                     elif my_index == 3: # Grayscale
-                        img = Image.open(image_path)
+                        img = open(image_path)
                         grayscale_img = grayscale_filter(img)
-                        pixmap = QPixmap.fromImage(ImageQt.ImageQt(grayscale_img))
+                        pixmap = QPixmap(grayscale_img)
                         new_window.setPixmap(pixmap)
 
                     elif my_index == 4: # Thumbnail
-                        img = Image.open(image_path)
+                        img = open(image_path)
                         thumbnail_img = thumbnail_filter(img)
-                        pixmap = QPixmap.fromImage(ImageQt.ImageQt(thumbnail_img))
+                        pixmap = QPixmap(thumbnail_img)
                         new_window.setPixmap(pixmap)
 
                     new_window.show()
@@ -59,29 +59,57 @@ def my_search(search_input):
         my_label.setText('Pick a valid manipulation')
 
 
-# def apply_sepia(image_path):
-#     # Implement sepia effect
-#     pass
+def sepia(p):
+    # tint shadows
+    if p[0] < 63:
+        r,g,b = int(p[0] * 1.1), p[1], int(p[2] * 0.9)
 
-# def apply_negative(image_path):
-#     # Implement negative effect
-#     # import cv2
-#     image = cv2.imread(image_path)
-#     if image is None:
-#         print("Error: Unable to load image.")
-#         return None
-#     negative_image = 
-#     cv2.imshow("Negative Image", negative_image)
-#     pass
+    # tint midtones
+    elif p[0] > 62 and p[0] < 192:
+        r,g,b = int(p[0] * 1.15), p[1], int(p[2] * 0.85)
 
-# def apply_grayscale(image_path):
-#     # Implement negative effect
-#     pass
+    # tint highlights
+    else:
+        r = int(p[0] * 1.08)
+        g,b = p[1], int(p[2] * 0.5)
 
-# def apply_thumbnail(image_path):
-#     # Implement negative effect
-#     pass
+    return r, g, b
 
-# def apply_none(image_path):
-#     # Implement negative effect
-#     pass
+def sepia_filter(image):
+    img = image.copy()
+    pixels = img.load()
+    width, height = img.size
+
+    for i in range(width):
+        for j in range(height):
+            pixel = pixels[i, j]
+            r, g, b = sepia(pixel)
+            pixels[i, j] = (r, g, b)
+
+    return img
+
+# If Negative is chosen
+def negative_filter(image):
+    negative_list = [(255-p[0], 255-p[1], 255-p[2]) for p in image.getdata()]
+    image.putdata(negative_list)
+    return image
+
+# If grayscale is chosen
+def grayscale_filter(image):
+    img = image.copy()
+
+    img = img.convert('L')
+    
+    return img
+
+# If thumbnail is chosen
+def thumbnail_filter(image):
+    img = image.copy()
+    width, height = img.size
+    
+    thumb_width = width // 4
+    thumb_height = height // 4
+    
+    img = img.resize((thumb_width, thumb_height))
+    
+    return img

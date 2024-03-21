@@ -14,17 +14,18 @@ class image_search_app(QWidget):
 
     def initUI(self):
         vbox = QVBoxLayout()
-        self.welcome_label = QLabel("Homework 3: Image search")
+        self.welcome_label = QLabel("Homework 3: Image search/Manipulation")
         self.prompt_label = QLabel("Type in a search word:")
         self.my_lineedit = QLineEdit("")
-        self.my_lineedit.minimum_width(250)
-        self.my_lineedit.selectAll()
+        self.my_lineedit.minimum_width = 300
+        self.my_lineedit.select_all()
         self.my_btn = QPushButton("Submit")
         self.my_lbl = QLabel('')
-        self.my_btn.clicked.connect(self.on_submit)
-        self.my_lineedit.returnPressed.connect(self.on_submit)
+        # Corrected signal connections to use the search method
+        self.my_btn.clicked.connect(self.search)
+        self.my_lineedit.returnPressed.connect(self.search)
 
-        self.my_list = ["Pick a manipulation", "Sepia", "Negative", "Grayscale", "Thumbnail", "None"]
+        self.my_list = ["Choose a manipulation method", "Sepia", "Negative", "Grayscale", "Thumbnail", "None"]
 
         self.my_combo_box = QComboBox()
         self.my_combo_box.add_items(self.my_list)
@@ -45,14 +46,14 @@ class image_search_app(QWidget):
     @Slot()
     def search(self):
         try:
-            search_term = self.search_input.text()
-            image_path = my_search(search_term)  # Assuming this returns a string path
+            search_term = self.my_lineedit.text()  # Corrected attribute reference
+            image_path = my_search(search_term, self.my_combo_box.currentIndex())  # Pass search term and selected manipulation index
             if image_path:
-                pixmap = QPixmap(image_path)  # Correct usage
-                self.image_label.setPixmap(pixmap)
+                pixmap = QPixmap(image_path)
+                self.my_lbl.setPixmap(pixmap)  # Corrected attribute reference
             else: 
                 pixmap = QPixmap("no_results.jpg")
-                self.image_label.setPixmap(pixmap)
+                self.my_lbl.setPixmap(pixmap)
         except Exception as e:
             print(f"Error: {e}")
 

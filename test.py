@@ -5,6 +5,7 @@ from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLineEdit, QComboBox, QPushButton, QLabel
 from PySide6.QtGui import QPixmap
 from __feature__ import snake_case, true_property
+from image_info import image_info
 from functions import my_search
 
 class image_search_app(QWidget):

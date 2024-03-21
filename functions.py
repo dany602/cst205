@@ -42,7 +42,7 @@ def my_search(search_input):
                         self.new_window.setPixmap(pixmap)
 
                     self.new_window.show()
-                    # self.my_lbl.setText(f"{image['id']}, {image['title']}, {image['url']}")
+                    self.my_lbl.setText(f"{image['id']}, {image['title']}, {image['url']}")
                     self.my_lbl.setText("Picture is found! :)")
                     break
                 else:
@@ -54,6 +54,11 @@ def my_search(search_input):
                     self.new_window.show()
 
                     self.my_lbl.setText("Picture not Found :(")
+
+    else:
+        self.my_lbl.setText("")
+        self.my_label.setText('Pick a valid manipulation')
+
 
 # def apply_sepia(image_path):
 #     # Implement sepia effect

@@ -22,7 +22,6 @@ class image_search_app(QWidget):
         self.my_lineedit.select_all()
         self.my_btn = QPushButton("Submit")
         self.my_lbl = QLabel('')
-        # Corrected signal connections to use the search method
         self.my_btn.clicked.connect(self.search)
         self.my_lineedit.returnPressed.connect(self.search)
 
@@ -46,17 +45,14 @@ class image_search_app(QWidget):
 
     @Slot()
     def search(self):
-        try:
-            search_term = self.my_lineedit.text()  # Corrected attribute reference
-            image_path = my_search(search_term, self.my_combo_box.currentIndex())  # Pass search term and selected manipulation index
-            if image_path:
-                pixmap = QPixmap(image_path)
-                self.my_lbl.setPixmap(pixmap)  # Corrected attribute reference
-            else: 
-                pixmap = QPixmap("no_results.jpg")
-                self.my_lbl.setPixmap(pixmap)
-        except Exception as e:
-            print(f"Error: {e}")
+        search_term = self.my_lineedit.text()
+        my_index = self.my_combo_box.current_index()
+        result = my_search(search_term, my_index)  # Ensure my_search accepts my_index if needed
+        if result["status"] == "found":
+            pixmap = QPixmap(result["image_path"])
+            self.my_lbl.setPixmap(pixmap)
+        else:
+            self.my_lbl.setText(result["message"])
 
 
 app = QApplication([])

@@ -21,9 +21,9 @@ class image_search_app(QWidget):
         set_layout.add_widget(self.search_input)
 
 # This is where the image manipulation takes place
-        # self.manipulation_combo = QComboBox()
-        # self.manipulation_combo.add_items(["None", "Sepia", "Negative", "Grayscale", "Thumbnail"])
-        # set_layout.add_widget(self.manipulation_combo)
+        self.manipulation_combo = QComboBox()
+        self.manipulation_combo.add_items(["None", "Sepia", "Negative", "Grayscale", "Thumbnail"])
+        set_layout.add_widget(self.manipulation_combo)
 
 # This is for the button
         self.search_button = QPushButton("Search")
@@ -38,25 +38,19 @@ class image_search_app(QWidget):
 
     @Slot()
     def search(self):
-# This part of the code performs the search
-        # manipulation = self.manipulation_combo.current_text()
-        search_term = self.search_input.text()
-        image_path = my_search(search_term)
-        # Apply manipulation if selected
-        # if manipulation == "None":
-        #     image_path = apply_none(image_path)
-        # elif manipulation == "Negative":
-        #     image_path = apply_negative(image_path)
-        # Apply other manipulations similarly
-        print(image_path)
+        try:
+            search_term = self.search_input.text()
+            print(f"Search term: {search_term}")
+        except Exception as e:
+            print(f"Error: {e}")
 
 # Displays the image chosen from the input above, if not then the no_seults.jpg image should show
-        if image_path:
-            pixmap = QPixmap(image_path)
-            self.image_label.setPixmap(pixmap)
-        else: 
-            pixmap = QPixmap("no_results.jpg")
-            self.image_label.setPixmap(pixmap)
+        # if image_path:
+        #     pixmap = QPixmap(image_path)
+        #     self.image_label.setPixmap(pixmap)
+        # else: 
+        #     pixmap = QPixmap("no_results.jpg")
+        #     self.image_label.setPixmap(pixmap)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

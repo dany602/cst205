@@ -15,7 +15,7 @@ class image_search_app(QWidget):
 
     def initUI(self):
         vbox = QVBoxLayout()
-        self.welcome_label = QLabel("Homework 3: Image search/Manipulation")
+        self.welcome_label = QLabel("Homework 3: Image Search and Manipulation")
         self.prompt_label = QLabel("Type in a search word:")
         self.my_lineedit = QLineEdit("")
         self.my_lineedit.minimum_width = 300

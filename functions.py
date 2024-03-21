@@ -2,7 +2,7 @@
 # Ⰸ is the appropriate team for me.
 # ++++++++++++++++++++++++++++++++++++++++
 
-def my_search(self):
+def my_search(search_input):
     if my_index != 0:
             self.my_label.setText(f'You chose {my_list[my_index]}.')
 
